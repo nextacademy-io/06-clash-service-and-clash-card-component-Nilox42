@@ -4,25 +4,19 @@ import {
   ProfilePictureClickedEvent,
   ProfilePictureComponent,
 } from './profile-picture/profile-picture.component';
+import { inject } from '@angular/core';
+import { ClashService } from './clash.service';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ClashCardComponent } from './clash-card/clash-card.component';
 
 const BASE_PICTURE_URL = 'https://randomuser.me/api/portraits/women';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ProfilePictureComponent],
+  imports: [RouterOutlet, ClashCardComponent],
   templateUrl: './app.component.html',
 })
 export class AppComponent {
-  private randomIndex = signal(90);
-
-  previousProfileUrl = signal(`${BASE_PICTURE_URL}/90.jpg`);
-  currentProfileUrl = computed(
-    () => `${BASE_PICTURE_URL}/${this.randomIndex()}.jpg`
-  );
-
-  profilePictureClicked(event: ProfilePictureClickedEvent): void {
-    console.log('Profile picture clicked:', event);
-    this.previousProfileUrl.update(() => event.profileUrl);
-    this.randomIndex.update(() => Math.floor(Math.random() * 100));
-  }
+  clashService = inject(ClashService);
+  clashes = toSignal(this.clashService.findAll());
 }
