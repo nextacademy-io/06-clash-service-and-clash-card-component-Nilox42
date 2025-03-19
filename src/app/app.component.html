@@ -1,13 +1,8 @@
 <main class="container mx-auto mt-8">
-  <div class="flex justify-center items-center flex-row gap-8">
-    <app-profile-picture
-      [profileUrl]="previousProfileUrl()"
-      (profilePictureClicked)="profilePictureClicked($event)"
-    ></app-profile-picture>
-    <app-profile-picture
-      [profileUrl]="currentProfileUrl()"
-      (profilePictureClicked)="profilePictureClicked($event)"
-    ></app-profile-picture>
+  <div class="mt-8 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+    @for (clash of clashes(); track clash.id) {
+    <app-clash-card [clash]="clash"></app-clash-card>
+    }
   </div>
   <router-outlet></router-outlet>
 </main>
